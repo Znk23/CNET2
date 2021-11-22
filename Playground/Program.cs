@@ -24,15 +24,16 @@ var strings = new[] { "zero", "one", "two", "three", "four", "five", "six", "sev
 //Console.WriteLine($"Všechna písmena mají {sumLetters} písmen");
 
 // 5 - vytvořit novou kolekci obsahující dvojici lowercase i uppercase variantu
-var result = strings
-    .Select(slovo => new UpperLowerString(slovo))
-    .Select(x => $"upper:{x.UpperCase} lower:{x.LowerCase}");
+// 1. varianta
+//var result = strings
+//    .Select(slovo => new UpperLowerString(slovo))
+//    .Select(x => $"upper:{x.UpperCase} lower:{x.LowerCase}");
+// 2. varianta pomocí tuplu
+var result= strings.Select(slovo => (slovo.ToLower(), slovo.ToUpper()));
 
+PrintItems<(string, string)>(result);
 
-
-PrintList(result.ToList());
-
-
+//PrintList(result.ToList());
 
 static void PrintList(List<string> listToPrint)
 {
@@ -43,6 +44,12 @@ static void PrintList(List<string> listToPrint)
 }
 
 
-
+static void PrintItems<T>(IEnumerable<T> items)
+{
+    foreach (var item in items)
+    {
+        Console.WriteLine(item);
+    }
+}
 
 
