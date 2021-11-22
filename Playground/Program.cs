@@ -29,11 +29,30 @@ var strings = new[] { "zero", "one", "two", "three", "four", "five", "six", "sev
 //    .Select(slovo => new UpperLowerString(slovo))
 //    .Select(x => $"upper:{x.UpperCase} lower:{x.LowerCase}");
 // 2. varianta pomocí tuplu
-var result= strings.Select(slovo => (slovo.ToLower(), slovo.ToUpper()));
+//var result= strings.Select(slovo => (slovo.ToLower(), slovo.ToUpper()));
 
-PrintItems<(string, string)>(result);
+//PrintItems<(string, string)>(result);
 
 //PrintList(result.ToList());
+
+//6 frekvence výskytu jednotlivých písmen ve všech položkách pole strings (kombinovaně)
+
+//var res = strings.Aggregate(
+//    "", //start with empty string to handle empty list case
+//    (current, next) => current + next);
+//Console.WriteLine(res);
+
+var aggregated = string.Join("", strings);  //spojeni slov do 1 retezce
+var result = aggregated//pracuji se stringem jako s kolekci znaku
+    .GroupBy(x => x) //seskupuji podle pismeneki (char v kolekci string)
+    .Select(g => (g.Key, g.Count())) //udelam tuple obsahujici klic a pocet prvku
+    .OrderByDescending(x => x.Item2)
+    .ThenBy(x => x.Key)
+    ;
+
+PrintItems<(char, int)>(result);
+ 
+
 
 static void PrintList(List<string> listToPrint)
 {
