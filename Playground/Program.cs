@@ -15,11 +15,15 @@ global::System.Console.WriteLine($"jsou vsechna cisla suda: {isOnlyEvenNumbers}"
 
 // 3  vypsat čísla v poli numbers jako anglicka slova
 
-var result = numbers.Select(x => strings[x]);
+//var result = numbers.Select(x => strings[x]);
 
-   
+// 4 - zjistit kolik obsahují všechna slova v poli strings dohromady písmen
+var sumLetters = strings.Select(x => x.Length).Sum();
+Console.WriteLine($"Všechna písmena mají {sumLetters} písmen");
 
-PrintList(result.ToList());
+
+//PrintList(result.ToList());
+
 
 
 static void PrintList(List<string> listToPrint)
@@ -29,6 +33,8 @@ static void PrintList(List<string> listToPrint)
         Console.WriteLine(item);
     }
 }
+
+
 
 
 
