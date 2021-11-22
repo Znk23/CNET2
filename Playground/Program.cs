@@ -1,4 +1,6 @@
-﻿Console.WriteLine("Hello, World!");
+﻿using Playground;
+
+Console.WriteLine("Hello, World!");
 
 
 var numbers = new[] { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
@@ -10,19 +12,25 @@ var strings = new[] { "zero", "one", "two", "three", "four", "five", "six", "sev
 //var result = strings.Select(x => x.ToUpper());
 
 // 2 zjistěte pomocí LINQu jestli pole obsahuje pouze sudá čísla
-bool isOnlyEvenNumbers = numbers.All(x => x % 2 == 0);
-global::System.Console.WriteLine($"jsou vsechna cisla suda: {isOnlyEvenNumbers}");
+//bool isOnlyEvenNumbers = numbers.All(x => x % 2 == 0);
+//global::System.Console.WriteLine($"jsou vsechna cisla suda: {isOnlyEvenNumbers}");
 
 // 3  vypsat čísla v poli numbers jako anglicka slova
 
 //var result = numbers.Select(x => strings[x]);
 
 // 4 - zjistit kolik obsahují všechna slova v poli strings dohromady písmen
-var sumLetters = strings.Select(x => x.Length).Sum();
-Console.WriteLine($"Všechna písmena mají {sumLetters} písmen");
+//var sumLetters = strings.Select(x => x.Length).Sum();
+//Console.WriteLine($"Všechna písmena mají {sumLetters} písmen");
+
+// 5 - vytvořit novou kolekci obsahující dvojici lowercase i uppercase variantu
+var result = strings
+    .Select(slovo => new UpperLowerString(slovo))
+    .Select(x => $"upper:{x.UpperCase} lower:{x.LowerCase}");
 
 
-//PrintList(result.ToList());
+
+PrintList(result.ToList());
 
 
 
