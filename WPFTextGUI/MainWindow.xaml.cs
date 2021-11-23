@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,11 @@ namespace WPFTextGUI
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            
+        }
+
+        private void LoadBooks()
+        {
             var bookdir = @"C:\Users\oresky_ntb\source\repos\CNET2\Books";
 
             foreach (var file in GetFilesFromDir(bookdir))
@@ -44,10 +50,36 @@ namespace WPFTextGUI
                 txbInfo.Text += Environment.NewLine;
             }
         }
-
         static IEnumerable<string> GetFilesFromDir(string dir)
         {
             return Directory.EnumerateFiles(dir);
+        }
+
+        private void btnLoad_Click(object sender, RoutedEventArgs e)
+        {
+            Stopwatch stopwatch = new();
+            stopwatch.Start();
+
+            var bigfilesdir = @"C:\Users\oresky_ntb\source\repos\CNET2\bigfiles";
+
+            var files = Directory.EnumerateFiles(bigfilesdir,"*.txt");
+
+            foreach(var file in files)
+            {
+                var wordsstats = TextTools.TextTools.FreqAnalysis(file, Environment.NewLine);
+                var top10 = TextTools.TextTools.GetTopWords(10, wordsstats);
+
+                var fi = new FileInfo(file);
+                txbInfo.Text += fi.Name + Environment.NewLine;
+                foreach (var kv in top10)
+                {
+                    txbInfo.Text += $"{kv.Key}: {kv.Value} {Environment.NewLine}";
+                }
+                txbInfo.Text += Environment.NewLine;
+            }
+
+            stopwatch.Stop();
+            txbDebugInfo.Text = "elapsed ms: " + stopwatch.ElapsedMilliseconds;
         }
     }
 }
