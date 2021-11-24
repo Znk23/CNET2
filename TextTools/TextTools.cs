@@ -38,6 +38,11 @@
             return dict;
         }
 
+        public static object GetTopWords(int v, string task1)
+        {
+            throw new NotImplementedException();
+        }
+
         public static Dictionary<string, int> GetTopWords(int takeTop, Dictionary<string, int> dict)
         {
             return dict
