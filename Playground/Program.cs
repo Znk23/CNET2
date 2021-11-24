@@ -2,11 +2,41 @@
 
 Console.WriteLine("Hello, World!");
 
-var numbers = new[] { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+HttpClient httpClient = new HttpClient();
+var res = await httpClient.GetAsync("https://google.com");
+if (res.IsSuccessStatusCode)
+{
+    string content = await res.Content.ReadAsStringAsync();
+}
 
-var strings = new[] { "zero", "one", "two", "three", 
-                        "four", "five", "six", "seven",
-                        "eight", "nine" };
+
+
+
+var task1 = Task.Run(() =>
+{
+    TextTools.TextTools.FreqAnalysisFromFile(@"C:\Users\zdene\source\repos\Znk23\CNET2\BigFiles\words03.txt", Environment.NewLine);
+    Console.WriteLine("Task 1 finished.");
+});
+
+var task2 = Task.Run(() =>
+{
+    TextTools.TextTools.FreqAnalysisFromFile(@"C:\Users\zdene\source\repos\Znk23\CNET2\BigFiles\words04.txt", Environment.NewLine);
+    Console.WriteLine("Task 2 finished.");
+});
+
+//Task.WaitAll(task1, task2);
+//Task.WaitAny(task1, task2);
+//await Task.WhenAll(task1, task2); //ceka az dobehnou vsechny
+await Task.WhenAny(task1, task2); //ceka az dobehne nejaky
+
+Console.WriteLine("Program finished");
+Console.WriteLine();
+
+//var numbers = new[] { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+
+//var strings = new[] { "zero", "one", "two", "three", 
+//                        "four", "five", "six", "seven",
+//                        "eight", "nine" };
 
 // 1 strings - pomocí LINQu vytvořte nové pole kde jsou všechna slova uppercase
 //var result = strings.Select(x => x.ToUpper());
@@ -111,4 +141,13 @@ static Dictionary<char, int> CharFreq(string input)
 static IEnumerable<string> GetFilesFromDir(string dir)
 {
     return Directory.EnumerateFiles(dir);
+}
+
+static void LINQ()
+{
+    var numbers = new[] { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+
+    var strings = new[] { "zero", "one", "two", "three", 
+                            "four", "five", "six", "seven",
+                            "eight", "nine" };
 }
