@@ -1,4 +1,6 @@
-using WPFTextGUI.Model;
+using Microsoft.EntityFrameworkCore;
+using MinAPI.Data;
+using MinAPI.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//pridani databaze do asp.net core
+builder.Services.AddDbContext<StatsDb>(opt => opt.UseSqlite("Data Source=stats.db"));
 
 var app = builder.Build();
 
