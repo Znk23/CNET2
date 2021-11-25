@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,6 +17,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WPFTextGUI.Model;
+using WPFTextGUI.Views;
+using System.Net.Http.Json;
 
 namespace WPFTextGUI
 {
@@ -183,5 +186,62 @@ namespace WPFTextGUI
             txbDebugInfo.Text = "elapsed ms: " + stopwatch.ElapsedMilliseconds;
             Mouse.OverrideCursor = null;
         }
+
+        private async void btnShowAnalysisDetail_Click(object sender, RoutedEventArgs e)
+        {
+            var url = "https://www.gutenberg.org/cache/epub/2036/pg2036.txt";
+
+            var d = DateTime.Now;
+
+            var dict = await TextTools.TextTools.FreqAnalysisFromUrlAsync(url);
+            var top10 = TextTools.TextTools.GetTopWords(10, dict);
+
+            var elapsed = (int)(DateTime.Now - d).TotalMilliseconds;
+
+            StatsResult result = new StatsResult();
+            result.Top10Words = top10;
+            result.Source = url;
+            result.ElapsedMilliseconds = elapsed;
+            result.SubmitedBy = "Lukas Kubicek";
+
+            StatsResultWindow rw = new StatsResultWindow(result);
+            rw.Show();
+
+
+        }
+
+
+
+
+
+
+
+        //private async void btnUpload_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var client = new HttpClient();
+
+        //    Stopwatch stopwatch = new();
+        //    stopwatch.Start();
+
+        //    var file1all = TextTools.TextTools.FreqAnalysisFromFile(@"holmes.txt");
+        //    var top10 = TextTools.TextTools.GetTopWords(10, file1all);
+
+        //    stopwatch.Stop();
+        //    txbDebugInfo.Text = "elapsed ms: " + stopwatch.ElapsedMilliseconds;
+
+        //    StatsResult sr = new StatsResult()
+        //    {
+        //        ElapsedMilliseconds = (int)stopwatch.ElapsedMilliseconds,
+        //        Top10Words = top10,
+        //        Name = "The Adventures of Sherlock Holmes, by Arthur Conan Doyle",
+        //        Source = "holmes.txt",
+        //        SubmitedBy = "Lukas Kubicek"
+        //    };
+
+        //    //var api = "http://localhost:5237";
+        //    var api = "http://demo.vakutech.cz";
+        //    var res = await client.PostAsJsonAsync<StatsResult>(api + "/stats", sr);
+
+        //}
     }
 }

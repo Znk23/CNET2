@@ -15,19 +15,19 @@ using System.Windows.Shapes;
 namespace WPFTextGUI.Webcheck
 {
     /// <summary>
-    /// Interaction logic for WebControlPanel.xaml
+    /// Interaction logic for WebControlWindow.xaml
     /// </summary>
-    public partial class WebControlPanel : Window
+    public partial class WebControlWindow : Window
     {
-        public WebControlPanel()
+        public WebControlWindow()
         {
             InitializeComponent();
         }
 
-        private void BtnStart_Click(object sender, RoutedEventArgs e)
+        private void btnStart_Click(object sender, RoutedEventArgs e)
         {
-            var url = TxtUrl.Text;
-            var term = TxtTerm.Text;
+            var url = txtUrl.Text;
+            var term = txtTerm.Text;
 
             if (Webs.WebsToCheck.TryAdd(url, true))
             {
@@ -36,14 +36,15 @@ namespace WPFTextGUI.Webcheck
                 wcw.Show();
             }
 
-            TxtUrl.Text = TxtTerm.Text = "";
+            txtUrl.Text = txtTerm.Text = "";
+
         }
 
-        private void BtnStop_Click(object sender, RoutedEventArgs e)
+        private void btnStop_Click(object sender, RoutedEventArgs e)
         {
-            var url = TxtUrl.Text;
+            var url = txtUrl.Text;
 
-            var success =Webs.WebsToCheck.TryUpdate(url, false, true);
+            var success = Webs.WebsToCheck.TryUpdate(url, false, true);
 
             if (!success)
                 MessageBox.Show("Failed to stop " + url, "Error", MessageBoxButton.OK);

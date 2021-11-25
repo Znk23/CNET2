@@ -8,6 +8,21 @@
             return FreqAnalysisFromString(content, splitby);
         }
 
+        public static async Task<Dictionary<string, int>> FreqAnalysisFromUrlAsync(string url, string splitby = " ")
+        {
+            using var client = new HttpClient();
+
+            try
+            {
+                string content = await client.GetStringAsync(url);
+                return FreqAnalysisFromString(content);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Failed FreqAnalysisFromUrlAsync " + url);
+            }
+        }
+
         public static Dictionary<string, int> FreqAnalysisFromFile(string file, string splitby = " ")
         {
             var content = File.ReadAllText(file);
@@ -36,11 +51,6 @@
             }
 
             return dict;
-        }
-
-        public static object GetTopWords(int v, string task1)
-        {
-            throw new NotImplementedException();
         }
 
         public static Dictionary<string, int> GetTopWords(int takeTop, Dictionary<string, int> dict)

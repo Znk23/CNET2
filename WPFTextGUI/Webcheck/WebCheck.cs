@@ -18,24 +18,24 @@ namespace WPFTextGUI.Webcheck
 
         public string Term { get; set; }
 
-        public bool Found { get; set; }
-
-        public string LastError { get; set; }
+        volatile public bool Found;
 
         public string LastState { get; set; }
 
-        HttpClient httpClient = new HttpClient();
+        public string LastError { get; set; }
 
-        public void Start()
+        private HttpClient httpClient = new HttpClient();
+
+        public void Start(IProgress<string> progress)
         {
-            Task.Run(() => Checking());
+            Task.Run(() => Checking(progress));
         }
-        private void Checking()
+        private void Checking(IProgress<string> progress)
         {
             if (!(Webs.WebsToCheck.ContainsKey(Url) && Webs.WebsToCheck[Url] == true))
                 return;
 
-            while (true)
+            while(true)
             {
                 if (Webs.WebsToCheck[Url] == false)
                     break;
@@ -46,13 +46,17 @@ namespace WPFTextGUI.Webcheck
 
                     if (content.Contains(Term, StringComparison.OrdinalIgnoreCase) == true)
                         Found = true;
+
+                    progress.Report($"{DateTime.Now.ToString()} {Found} {Environment.NewLine}");
                 }
-                catch (Exception e)
+                catch(Exception e) 
                 {
-                    LastError = LastState = $"{DateTime.Now.ToString()} - ERROR - { e.Message}";
+                    LastError = LastState = $"{DateTime.Now.ToString()} - ERROR - {e.Message}";
+
+                    progress.Report(LastError + Environment.NewLine);
                 }
 
-                Task.Delay(5000).Wait();
+                Task.Delay(2000).Wait();
             }
         }
     }

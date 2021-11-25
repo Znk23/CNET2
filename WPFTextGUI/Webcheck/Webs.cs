@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace WPFTextGUI.Webcheck
 {
-    internal class Webs
+    public class Webs
     {
-        public static ConcurrentDictionary<string, bool> WebsToCheck { get; set; }
+        public static ConcurrentDictionary<string, bool> WebsToCheck { get; set; } 
                                                 = new ConcurrentDictionary<string, bool>();
     }
 }
