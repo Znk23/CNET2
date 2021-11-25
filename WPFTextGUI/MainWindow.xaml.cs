@@ -27,7 +27,7 @@ namespace WPFTextGUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        static string bigfilesdir = @"C:\Users\Student\Documents\BigFiles";
+        static string bigfilesdir = @"C:\Users\zdene\source\repos\Znk23\CNET2\BigFiles";
 
         static IEnumerable<string> GetBigFiles()
         {
