@@ -20,9 +20,16 @@ app.UseHttpsRedirection();
 
 app.MapGet("/hello", () => "hello");
 
+app.MapPost("/stats", (StatsResult results) =>
+{
+    return "ok";
+});
+
+
 // POST -> /stats
 // GET -> /stats/5
 // GET -> /stats/all
+
 
 app.MapGet("/stats/{id}", (int id) =>
 {
@@ -32,5 +39,16 @@ app.MapGet("/stats/{id}", (int id) =>
     return sr;
 });
 
+app.MapGet("/stats/all", GetAllResults);
+
 app.Run();
 
+static List<StatsResult> GetAllResults()
+{
+    return new List<StatsResult>()
+    {
+        new StatsResult() { Id = 1, Source ="dummy result"},
+        new StatsResult() { Id = 2, Source ="dummy result"},
+        new StatsResult() { Id = 3, Source ="dummy result"}
+    };
+}
